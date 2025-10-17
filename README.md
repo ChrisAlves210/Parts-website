@@ -1,4 +1,4 @@
-# My Parts Store (Beginner Version)
+# My Parts Store 
 
 A very simple static website built step-by-step. It intentionally looks like a beginner project: plain HTML, a single CSS file, and a tiny bit of JavaScript.
 
@@ -60,5 +60,3 @@ How it works:
 - On load (and when you click "Refresh Prices"), the site fetches `prices.json` and updates the Price column by matching the SKU.
 - For GitHub Pages or any static hosting, commit and push updates to `prices.json` to change live prices.
 
-Advanced (optional):
-- If you have an external API endpoint returning the same JSON shape, you can change the fetch URL in `script.js`.
