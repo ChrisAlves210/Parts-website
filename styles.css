@@ -49,6 +49,16 @@ main {
   margin-right: 6px;
 }
 
+.filters {
+  margin-top: 8px;
+}
+.filters label {
+  margin: 0 6px 0 0;
+}
+.filters input {
+  margin-right: 12px;
+}
+
 /* Simple table styling */
 table {
   width: 100%;

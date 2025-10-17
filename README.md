@@ -20,10 +20,22 @@ python3 -m http.server 8000
 
 ## What to try
 - Type in the search box to filter parts by name
+- Use the Make and Model inputs to narrow results (e.g., Toyota Camry)
+ - Optionally use Submodel (e.g., LE, XLT) to narrow further
 - Fill out the contact form and click Send (it will just show a thank-you message)
 - Click a part row to put its name into the search box
-- Click "Search Web" to open a DuckDuckGo search in a new tab for that part
- - Use the vendor buttons (Amazon, eBay, RockAuto, Google Shopping) to open searches on those sites
+- Click "Search Google" to open a Google search in a new tab for that part
+ - Use the vendor buttons (Amazon, eBay, RockAuto, Google Shopping) to open searches on those sites (RockAuto uses a Google site search)
+
+## Data columns
+The parts table now has these columns:
+- Name
+- Make
+- Model
+ - Submodel
+- SKU
+- Price
+- In Stock
 
 ## Next steps (optional)
 - Add more parts rows

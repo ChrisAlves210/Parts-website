@@ -27,7 +27,7 @@
       <div class="search">
         <label for="searchInput">Search:</label>
         <input id="searchInput" type="text" placeholder="Type a part name..." />
-        <button id="webSearchBtn" type="button">Search Web</button>
+  <button id="webSearchBtn" type="button">Search Google</button>
         <div class="vendors">
           <span>Or search on:</span>
           <button type="button" class="vendor-btn" data-vendor="amazon">Amazon</button>
@@ -35,12 +35,24 @@
           <button type="button" class="vendor-btn" data-vendor="rockauto">RockAuto</button>
           <button type="button" class="vendor-btn" data-vendor="gshop">Google Shopping</button>
         </div>
+
+        <div class="filters">
+          <label for="makeInput">Make:</label>
+          <input id="makeInput" type="text" placeholder="e.g., Toyota" />
+          <label for="modelInput">Model:</label>
+          <input id="modelInput" type="text" placeholder="e.g., Camry" />
+          <label for="submodelInput">Submodel:</label>
+          <input id="submodelInput" type="text" placeholder="e.g., LE" />
+        </div>
       </div>
 
       <table id="partsTable">
         <thead>
           <tr>
             <th>Name</th>
+            <th>Make</th>
+            <th>Model</th>
+            <th>Submodel</th>
             <th>SKU</th>
             <th>Price</th>
             <th>In Stock</th>
@@ -49,24 +61,36 @@
         <tbody>
           <tr>
             <td>Brake Pad</td>
+            <td>Toyota</td>
+            <td>Camry</td>
+            <td>LE</td>
             <td>BP-100</td>
             <td>$25.00</td>
             <td>Yes</td>
           </tr>
           <tr>
             <td>Oil Filter</td>
+            <td>Honda</td>
+            <td>Civic</td>
+            <td>EX</td>
             <td>OF-200</td>
             <td>$8.50</td>
             <td>No</td>
           </tr>
           <tr>
             <td>Spark Plug</td>
+            <td>Ford</td>
+            <td>F-150</td>
+            <td>XLT</td>
             <td>SP-300</td>
             <td>$4.99</td>
             <td>Yes</td>
           </tr>
           <tr>
             <td>Air Filter</td>
+            <td>Subaru</td>
+            <td>Outback</td>
+            <td>Premium</td>
             <td>AF-400</td>
             <td>$12.75</td>
             <td>Yes</td>

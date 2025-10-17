@@ -4,21 +4,38 @@
 
 document.addEventListener('DOMContentLoaded', function () {
   var input = document.getElementById('searchInput');
+  var makeInput = document.getElementById('makeInput');
+  var modelInput = document.getElementById('modelInput');
+  var submodelInput = document.getElementById('submodelInput');
   var tbody = document.getElementById('partsTable').getElementsByTagName('tbody')[0];
   var rows = tbody.getElementsByTagName('tr');
   var webBtn = document.getElementById('webSearchBtn');
   var vendorButtons = document.getElementsByClassName('vendor-btn');
 
-  if (input) {
-    input.addEventListener('input', function () {
-      var q = input.value.toLowerCase();
-      for (var i = 0; i < rows.length; i++) {
-        var nameCell = rows[i].getElementsByTagName('td')[0];
-        var name = nameCell ? nameCell.textContent.toLowerCase() : '';
-        rows[i].style.display = name.indexOf(q) !== -1 ? '' : 'none';
-      }
-    });
+  function applyFilters() {
+    var q = (input && input.value ? input.value.toLowerCase() : '');
+  var mk = (makeInput && makeInput.value ? makeInput.value.toLowerCase() : '');
+  var md = (modelInput && modelInput.value ? modelInput.value.toLowerCase() : '');
+  var sm = (submodelInput && submodelInput.value ? submodelInput.value.toLowerCase() : '');
+    for (var i = 0; i < rows.length; i++) {
+      var tds = rows[i].getElementsByTagName('td');
+      var name = tds[0] ? tds[0].textContent.toLowerCase() : '';
+  var make = tds[1] ? tds[1].textContent.toLowerCase() : '';
+  var model = tds[2] ? tds[2].textContent.toLowerCase() : '';
+  var submodel = tds[3] ? tds[3].textContent.toLowerCase() : '';
+      var match = true;
+      if (q && name.indexOf(q) === -1) match = false;
+      if (mk && make.indexOf(mk) === -1) match = false;
+  if (md && model.indexOf(md) === -1) match = false;
+  if (sm && submodel.indexOf(sm) === -1) match = false;
+      rows[i].style.display = match ? '' : 'none';
+    }
   }
+
+  if (input) input.addEventListener('input', applyFilters);
+  if (makeInput) makeInput.addEventListener('input', applyFilters);
+  if (modelInput) modelInput.addEventListener('input', applyFilters);
+  if (submodelInput) submodelInput.addEventListener('input', applyFilters);
 
   var form = document.getElementById('contactForm');
   var status = document.getElementById('formStatus');
@@ -41,21 +58,29 @@ document.addEventListener('DOMContentLoaded', function () {
       var nameCell = this.getElementsByTagName('td')[0];
       if (nameCell && input) {
         input.value = nameCell.textContent;
-        var event = new Event('input');
-        input.dispatchEvent(event);
+        applyFilters();
       }
     });
   }
 
   // Web search button opens DuckDuckGo with the typed query
+  function fullQuery() {
+    var parts = [];
+    if (input && input.value) parts.push(input.value);
+    if (makeInput && makeInput.value) parts.push(makeInput.value);
+  if (modelInput && modelInput.value) parts.push(modelInput.value);
+  if (submodelInput && submodelInput.value) parts.push(submodelInput.value);
+    return parts.join(' ').trim();
+  }
+
   if (webBtn) {
     webBtn.addEventListener('click', function () {
-      var q = (input && input.value) ? input.value.trim() : '';
+      var q = fullQuery();
       if (!q) {
         alert('Type a part name first.');
         return;
       }
-      var url = 'https://duckduckgo.com/?q=' + encodeURIComponent(q + ' parts');
+      var url = 'https://www.google.com/search?q=' + encodeURIComponent(q + ' parts');
       window.open(url, '_blank');
     });
   }
@@ -73,8 +98,8 @@ document.addEventListener('DOMContentLoaded', function () {
     } else if (vendor === 'ebay') {
       url = 'https://www.ebay.com/sch/i.html?_nkw=' + encodeURIComponent(q);
     } else if (vendor === 'rockauto') {
-      // RockAuto does not have a simple query format for everything; fall back to a site search via DuckDuckGo
-      url = 'https://duckduckgo.com/?q=' + encodeURIComponent('site:rockauto.com ' + q);
+      // RockAuto: use Google site search
+      url = 'https://www.google.com/search?q=' + encodeURIComponent('site:rockauto.com ' + q);
     } else if (vendor === 'gshop') {
       url = 'https://www.google.com/search?tbm=shop&q=' + encodeURIComponent(q);
     } else {
@@ -86,8 +111,11 @@ document.addEventListener('DOMContentLoaded', function () {
   for (var vb = 0; vb < vendorButtons.length; vb++) {
     vendorButtons[vb].addEventListener('click', function () {
       var vendor = this.getAttribute('data-vendor');
-      var q = input ? input.value : '';
+      var q = fullQuery();
       openVendor(vendor, q);
     });
   }
+
+  // Initial filter apply (in case inputs have preset values)
+  applyFilters();
 });
