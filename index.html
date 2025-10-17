@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Parts Store</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>My Parts Store</h1>
+    <nav>
+      <a href="#parts">Parts</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h2>Welcome!</h2>
+      
+    </section>
+
+    <section id="parts">
+      <h3>Parts List</h3>
+
+      <div class="search">
+        <label for="searchInput">Search:</label>
+        <input id="searchInput" type="text" placeholder="Type a part name..." />
+        <button id="webSearchBtn" type="button">Search Web</button>
+        <div class="vendors">
+          <span>Or search on:</span>
+          <button type="button" class="vendor-btn" data-vendor="amazon">Amazon</button>
+          <button type="button" class="vendor-btn" data-vendor="ebay">eBay</button>
+          <button type="button" class="vendor-btn" data-vendor="rockauto">RockAuto</button>
+          <button type="button" class="vendor-btn" data-vendor="gshop">Google Shopping</button>
+        </div>
+      </div>
+
+      <table id="partsTable">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>SKU</th>
+            <th>Price</th>
+            <th>In Stock</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Brake Pad</td>
+            <td>BP-100</td>
+            <td>$25.00</td>
+            <td>Yes</td>
+          </tr>
+          <tr>
+            <td>Oil Filter</td>
+            <td>OF-200</td>
+            <td>$8.50</td>
+            <td>No</td>
+          </tr>
+          <tr>
+            <td>Spark Plug</td>
+            <td>SP-300</td>
+            <td>$4.99</td>
+            <td>Yes</td>
+          </tr>
+          <tr>
+            <td>Air Filter</td>
+            <td>AF-400</td>
+            <td>$12.75</td>
+            <td>Yes</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="contact">
+      <h3>Contact Us</h3>
+      <form id="contactForm">
+        <div class="field">
+          <label for="name">Name</label>
+          <input id="name" type="text" required />
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input id="email" type="email" required />
+        </div>
+        <div class="field">
+          <label for="message">Message</label>
+          <textarea id="message" rows="4"></textarea>
+        </div>
+        <button type="submit">Send</button>
+        <p id="formStatus" class="status" aria-live="polite"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2025 My Parts Store</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
