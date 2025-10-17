@@ -1,6 +1,4 @@
-// Very basic, beginner-style JS
-// - Filters parts by name
-// - Fakes a contact form submission message
+
 
 document.addEventListener('DOMContentLoaded', function () {
   var input = document.getElementById('searchInput');
@@ -11,6 +9,9 @@ document.addEventListener('DOMContentLoaded', function () {
   var rows = tbody.getElementsByTagName('tr');
   var webBtn = document.getElementById('webSearchBtn');
   var vendorButtons = document.getElementsByClassName('vendor-btn');
+  var sortPriceAscBtn = document.getElementById('sortPriceAscBtn');
+  var refreshPricesBtn = document.getElementById('refreshPricesBtn');
+  var priceUpdatedAt = document.getElementById('priceUpdatedAt');
 
   function applyFilters() {
     var q = (input && input.value ? input.value.toLowerCase() : '');
@@ -63,7 +64,9 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  // Web search button opens DuckDuckGo with the typed query
+  // (reviews and top-rated logic removed)
+
+  // Web search button opens Google with the typed query
   function fullQuery() {
     var parts = [];
     if (input && input.value) parts.push(input.value);
@@ -118,4 +121,76 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Initial filter apply (in case inputs have preset values)
   applyFilters();
+
+  // Helper to parse price like "$12.75" -> 12.75
+  function parsePrice(text) {
+    var cleaned = (text || '').replace(/[^0-9.]/g, '');
+    var val = parseFloat(cleaned);
+    return isNaN(val) ? Number.POSITIVE_INFINITY : val;
+  }
+
+  // Sort table rows by price ascending; keep header intact
+  function sortByPriceAsc() {
+    var rowsArr = Array.prototype.slice.call(rows);
+    rowsArr.sort(function (a, b) {
+      var ta = a.getElementsByTagName('td');
+      var tb = b.getElementsByTagName('td');
+      var pa = ta[5] ? parsePrice(ta[5].textContent) : Number.POSITIVE_INFINITY; // Price col index 5
+      var pb = tb[5] ? parsePrice(tb[5].textContent) : Number.POSITIVE_INFINITY;
+      if (pa === pb) {
+        var na = ta[0] ? ta[0].textContent : '';
+        var nb = tb[0] ? tb[0].textContent : '';
+        return na.localeCompare(nb);
+      }
+      return pa - pb;
+    });
+    for (var i = 0; i < rowsArr.length; i++) {
+      tbody.appendChild(rowsArr[i]);
+    }
+  }
+
+  if (sortPriceAscBtn) {
+    sortPriceAscBtn.addEventListener('click', function () {
+      sortByPriceAsc();
+      applyFilters();
+    });
+  }
+
+  // Live price updater: fetch prices.json and update table
+  function updatePricesFromData(data) {
+    // data format: { "SKU": 12.34, ... }
+    var map = data || {};
+    for (var i = 0; i < rows.length; i++) {
+      var tds = rows[i].getElementsByTagName('td');
+      if (tds.length < 7) continue;
+      var sku = tds[4].textContent.trim();
+      if (map.hasOwnProperty(sku)) {
+        var price = parseFloat(map[sku]);
+        if (!isNaN(price)) {
+          tds[5].textContent = '$' + price.toFixed(2);
+        }
+      }
+    }
+    if (priceUpdatedAt) {
+      var now = new Date();
+      priceUpdatedAt.textContent = 'Updated ' + now.toLocaleTimeString();
+    }
+  }
+
+  function fetchPrices() {
+    // For static hosting, fetch prices.json from the same directory
+    fetch('prices.json', { cache: 'no-cache' })
+      .then(function (res) { return res.json(); })
+      .then(function (json) { updatePricesFromData(json); })
+      .catch(function () {
+        if (priceUpdatedAt) priceUpdatedAt.textContent = 'Prices could not be loaded';
+      });
+  }
+
+  if (refreshPricesBtn) {
+    refreshPricesBtn.addEventListener('click', fetchPrices);
+  }
+
+  // Optionally auto-fetch on load
+  fetchPrices();
 });

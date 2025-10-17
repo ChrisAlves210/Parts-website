@@ -44,6 +44,12 @@
           <label for="submodelInput">Submodel:</label>
           <input id="submodelInput" type="text" placeholder="e.g., LE" />
         </div>
+
+        <div class="actions">
+          <button id="sortPriceAscBtn" type="button">Sort by Price (Low → High)</button>
+          <button id="refreshPricesBtn" type="button">Refresh Prices</button>
+          <span id="priceUpdatedAt" class="muted"></span>
+        </div>
       </div>
 
       <table id="partsTable">
@@ -56,6 +62,7 @@
             <th>SKU</th>
             <th>Price</th>
             <th>In Stock</th>
+            <th>Rating</th>
           </tr>
         </thead>
         <tbody>
@@ -67,6 +74,7 @@
             <td>BP-100</td>
             <td>$25.00</td>
             <td>Yes</td>
+            <td>4.6</td>
           </tr>
           <tr>
             <td>Oil Filter</td>
@@ -76,6 +84,7 @@
             <td>OF-200</td>
             <td>$8.50</td>
             <td>No</td>
+            <td>4.2</td>
           </tr>
           <tr>
             <td>Spark Plug</td>
@@ -85,6 +94,7 @@
             <td>SP-300</td>
             <td>$4.99</td>
             <td>Yes</td>
+            <td>4.9</td>
           </tr>
           <tr>
             <td>Air Filter</td>
@@ -94,9 +104,12 @@
             <td>AF-400</td>
             <td>$12.75</td>
             <td>Yes</td>
+            <td>4.4</td>
           </tr>
         </tbody>
       </table>
+
+      
     </section>
 
     <section id="contact">

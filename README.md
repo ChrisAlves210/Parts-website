@@ -26,6 +26,8 @@ python3 -m http.server 8000
 - Click a part row to put its name into the search box
 - Click "Search Google" to open a Google search in a new tab for that part
  - Use the vendor buttons (Amazon, eBay, RockAuto, Google Shopping) to open searches on those sites (RockAuto uses a Google site search)
+ - Click "Sort by Price (Low → High)" to sort the table by price while keeping your filters.
+ - Click "Refresh Prices" to load the latest prices from `prices.json` and update the table.
 
 ## Data columns
 The parts table now has these columns:
@@ -41,3 +43,22 @@ The parts table now has these columns:
 - Add more parts rows
 - Add a second page (e.g., about.html)
 - Save/load parts from a JSON file (still static)
+
+## Live pricing (simple static)
+This site can update prices from a local JSON file named `prices.json`.
+
+Format:
+
+```json
+{
+	"SKU": 12.34,
+	"ANOTHER-SKU": 56.78
+}
+```
+
+How it works:
+- On load (and when you click "Refresh Prices"), the site fetches `prices.json` and updates the Price column by matching the SKU.
+- For GitHub Pages or any static hosting, commit and push updates to `prices.json` to change live prices.
+
+Advanced (optional):
+- If you have an external API endpoint returning the same JSON shape, you can change the fetch URL in `script.js`.
